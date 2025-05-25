@@ -2,6 +2,8 @@
 
 [English](#english) | [中文繁體](#中文繁體)
 
+## 🔮 [Try it now! 立即體驗！](http://dowsing.88654068.xyz/)
+
 ![Dowsing Chart Preview](https://raw.githubusercontent.com/hongdartw/dowsing_chart/main/preview.png)
 
 <a name="english"></a>
@@ -9,6 +11,9 @@
 
 ### Project Introduction
 This project is an interactive dowsing chart tool that allows energy practitioners, dowsers, and holistic healers to conduct energy assessments and measurements. Users can freely input a list of items to test (body parts, emotions, remedies, etc.) and use pendulum dowsing techniques with this visual chart. The three-layer semi-circular design offers comprehensive measurement capabilities with evaluation scales and numerical values.
+
+### Online Demo
+Visit our live demo at: [http://dowsing.88654068.xyz/](http://dowsing.88654068.xyz/)
 
 ### Features
 - Customizable testing items: Add any items you wish to test with your pendulum, one item per line.
@@ -23,12 +28,13 @@ This project is an interactive dowsing chart tool that allows energy practitione
 - Modern, responsive design works on desktop and mobile devices.
 
 ### Usage Instructions
-1. Enter the items you wish to test (organs, emotions, remedies, etc.) in the input box.
-2. Click the "Redraw" button to update the chart.
-3. Hold your pendulum over the center point of the chart.
-4. Ask your question and observe the pendulum's movement toward specific sectors.
-5. Read the corresponding evaluation level and numerical value along with your item.
-6. Your items will be automatically saved for your next session.
+1. Visit [http://dowsing.88654068.xyz/](http://dowsing.88654068.xyz/) or download and open index.html.
+2. Enter the items you wish to test (organs, emotions, remedies, etc.) in the input box.
+3. Click the "Redraw" button to update the chart.
+4. Hold your pendulum over the center point of the chart.
+5. Ask your question and observe the pendulum's movement toward specific sectors.
+6. Read the corresponding evaluation level and numerical value along with your item.
+7. Your items will be automatically saved for your next session.
 
 ### Technical Details
 - SVG-based rendering ensures crisp graphics at any screen size.
@@ -52,6 +58,9 @@ This project is an interactive dowsing chart tool that allows energy practitione
 ### 專案介紹
 本專案是一個互動式靈擺測量工具，專為能量工作者、靈擺使用者和整體健康治療師設計。使用者可以自由輸入待測項目清單（身體部位、情緒、療法等），並配合靈擺技術進行能量評估與測量。三層半圓形設計提供全面的測量功能，包含評估等級和數值刻度。
 
+### 線上體驗
+立即體驗我們的線上版本：[http://dowsing.88654068.xyz/](http://dowsing.88654068.xyz/)
+
 ### 功能特色
 - 自訂測試項目：可添加任何您希望用靈擺測試的項目，每行一項。
 - 專業三層靈擺結構：
@@ -65,12 +74,13 @@ This project is an interactive dowsing chart tool that allows energy practitione
 - 現代響應式設計，同時支援桌面和移動設備。
 
 ### 使用說明
-1. 在輸入框中輸入您希望測試的項目（器官、情緒、療法等）。
-2. 點擊「重繪/Redraw」按鈕更新圖表。
-3. 將您的靈擺懸吊在圖表的中心點上方。
-4. 提出您的問題，觀察靈擺向特定扇區的移動。
-5. 閱讀相應的評估等級和數值，以及您的測試項目。
-6. 您的項目將自動保存，供下次使用時載入。
+1. 訪問 [http://dowsing.88654068.xyz/](http://dowsing.88654068.xyz/) 或下載並打開 index.html。
+2. 在輸入框中輸入您希望測試的項目（器官、情緒、療法等）。
+3. 點擊「重繪/Redraw」按鈕更新圖表。
+4. 將您的靈擺懸吊在圖表的中心點上方。
+5. 提出您的問題，觀察靈擺向特定扇區的移動。
+6. 閱讀相應的評估等級和數值，以及您的測試項目。
+7. 您的項目將自動保存，供下次使用時載入。
 
 ### 技術細節
 - 基於SVG的渲染確保在任何螢幕尺寸下都有清晰的圖形。

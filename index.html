@@ -98,7 +98,7 @@
   <h1>Dowsing Chart</h1>
   <div class="container">
     <textarea id="inputList" placeholder="請輸入多行文字，每行一項...\n例如：\nHead\nBrain\nEye\nEar\nNose\nMouth\nShock\nStress\nAnger\nJoy\nPain\nNumb\nSadness\nLive\nDead\nSleep\nAwake\nGood\nBad\nFast\nSlow\nUp\nDown"></textarea>
-    <button id="drawBtn">更新圖形</button>
+    <button id="drawBtn">重繪/Redraw</button>
     <div class="svg-wrapper">
       <!-- SVG 圖形將動態插入這裡 -->
       <svg id="fanChart" width="100%" height="100%" viewBox="0 0 480 280" preserveAspectRatio="xMidYMid meet"></svg>
@@ -113,6 +113,28 @@
     // 固定的內層和中層內容
     const innerLayerNumbers = Array.from({length: 21}, (_, i) => (i - 10).toString()); // -10到+10
     const middleLayerLabels = ['Critical', 'Poor', 'Fair', 'Good', 'Excellent'];
+
+    // 本機儲存功能 - 儲存文字到localStorage
+    function saveToLocalStorage(items) {
+      try {
+        localStorage.setItem('dowsingChartItems', JSON.stringify(items));
+      } catch (e) {
+        console.error('儲存到本機失敗:', e);
+      }
+    }
+
+    // 本機儲存功能 - 從localStorage讀取文字
+    function loadFromLocalStorage() {
+      try {
+        const savedItems = localStorage.getItem('dowsingChartItems');
+        if (savedItems) {
+          return JSON.parse(savedItems);
+        }
+      } catch (e) {
+        console.error('從本機讀取失敗:', e);
+      }
+      return null;
+    }
 
     // 畫三層同心扇形圖主函式
     function drawFanChart(outerItems) {
@@ -307,17 +329,31 @@
     drawBtn.addEventListener('click', () => {
       // 取得多行文字，去除空白行
       const items = inputList.value.split('\n').map(s => s.trim()).filter(s => s);
+      // 儲存到本機
+      saveToLocalStorage(items);
+      // 繪製圖形
       drawFanChart(items);
     });
 
+    // 檢查是否有本機儲存的項目
+    const savedItems = loadFromLocalStorage();
+    
     // 預設範例
     const defaultItems = [
-      'Head', 'Brain', 'Eye', 'Ear', 'Nose', 'Mouth', 'Shock', 'Stress',
-      'Anger', 'Joy', 'Pain', 'Numb', 'Sadness', 'Live', 'Dead', 'Sleep',
-      'Awake', 'Good', 'Bad', 'Fast', 'Slow', 'Up', 'Down'
-    ];
-    inputList.value = defaultItems.join('\n');
-    drawFanChart(defaultItems);
+      'Wood/Liver','Fire/Heart','Earth/Spleen','Metal/Lung','Water/Kidney' ];
+    
+    // 如果有本機儲存的項目則使用，否則使用預設項目
+    const initialItems = savedItems || defaultItems;
+    
+    // 設置文字框內容並繪製圖形
+    inputList.value = initialItems.join('\n');
+    drawFanChart(initialItems);
+
+    // 監聽文字框變化，自動儲存到本機
+    inputList.addEventListener('input', () => {
+      const items = inputList.value.split('\n').map(s => s.trim()).filter(s => s);
+      saveToLocalStorage(items);
+    });
   </script>
 </body>
 </html>

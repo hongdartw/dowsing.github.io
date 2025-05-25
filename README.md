@@ -1,4 +1,4 @@
-# Dowsing Chart | 靈擺測量圖
+# Interactive Dowsing Chart | 互動式靈擺測量圖
 
 [English](#english) | [中文繁體](#中文繁體)
 
@@ -8,39 +8,41 @@
 ## English
 
 ### Project Introduction
-This project is a front-end interactive web page that allows users to freely input a list of text items and dynamically generate a three-layer semi-circular fan chart based on the number of input items. Each fan sector displays corresponding text, creating a concise and visual representation of the list, suitable for dowsing measurements or energy detection scenarios.
+This project is an interactive dowsing chart tool that allows energy practitioners, dowsers, and holistic healers to conduct energy assessments and measurements. Users can freely input a list of items to test (body parts, emotions, remedies, etc.) and use pendulum dowsing techniques with this visual chart. The three-layer semi-circular design offers comprehensive measurement capabilities with evaluation scales and numerical values.
 
 ### Features
-- Free input of multiple text items, one item per line.
-- Three-layer concentric semi-circle structure:
-  - Outer layer: Displays user-input items, automatically divided based on the number of items.
-  - Middle layer: Fixed display of five evaluation levels (Critical, Poor, Fair, Good, Excellent).
-  - Inner layer: Displays numerical range (-10 to +10).
-- Each fan sector displays corresponding text, with text layout conforming to the fan shape.
-- Automatic font size adjustment based on text length to ensure readability.
-- Button for real-time chart updates.
-- Pure front-end implementation, no dependency on external libraries.
-- Apple-style clean and aesthetic design, supporting responsive layout.
+- Customizable testing items: Add any items you wish to test with your pendulum, one item per line.
+- Professional three-layer dowsing structure:
+  - Outer layer: Displays your custom testing items, dynamically adjusted based on quantity.
+  - Middle layer: Five-level assessment scale (Critical, Poor, Fair, Good, Excellent).
+  - Inner layer: Precise numerical measurement range (-10 to +10).
+- Optimized text display with automatic sizing for perfect readability.
+- Local storage functionality saves your custom items between sessions.
+- Clean, distraction-free interface designed for focused dowsing practice.
+- Pure front-end implementation works offline after initial loading.
+- Modern, responsive design works on desktop and mobile devices.
 
 ### Usage Instructions
-1. Enter multiple lines of text in the input box, with each line representing one item.
-2. Click the "Update Chart" button, and the three-layer semi-circular fan chart will be displayed in the center of the screen.
-3. You can modify the text and update the chart at any time.
-4. A set of example items (body parts, emotional states, etc.) is included by default.
+1. Enter the items you wish to test (organs, emotions, remedies, etc.) in the input box.
+2. Click the "Redraw" button to update the chart.
+3. Hold your pendulum over the center point of the chart.
+4. Ask your question and observe the pendulum's movement toward specific sectors.
+5. Read the corresponding evaluation level and numerical value along with your item.
+6. Your items will be automatically saved for your next session.
 
 ### Technical Details
-- Uses SVG to draw the three-layer concentric semi-circular fan chart.
-- JavaScript dynamically calculates the angle of each fan sector and renders it.
-- Text is arranged radially to ensure readability.
-- CSS implements modern UI design, including gradient buttons and shadow effects.
-- Responsive design, adapting to different screen sizes.
+- SVG-based rendering ensures crisp graphics at any screen size.
+- LocalStorage API preserves your custom testing items between sessions.
+- JavaScript dynamically calculates and renders the chart components.
+- Radial text arrangement ensures optimal readability from all angles.
+- Modern CSS design with gradient effects and responsive layout.
 
 ### Future Improvements
-- Support for diverse or customizable fan sector colors.
-- Add mouse interaction tooltips.
-- Provide fan sector click events and selection effects.
-- Add pointer animation effects.
-- Provide save/export chart functionality.
+- Multiple chart presets for different dowsing purposes.
+- Print/export functionality for saving and sharing results.
+- Animation effects to visualize pendulum movement patterns.
+- Guided dowsing sessions with integrated timers.
+- Additional measurement scales and evaluation methods.
 
 ---
 
@@ -48,39 +50,41 @@ This project is a front-end interactive web page that allows users to freely inp
 ## 中文繁體
 
 ### 專案介紹
-本專案是一個前端互動網頁，允許使用者自由輸入一組文字清單，並根據輸入項目數量動態繪製三層半圓形扇形圖。每個扇形區塊會顯示對應的文字，實現簡潔且可視化的清單展示，適合用於靈擺測量或能量檢測等場景。
+本專案是一個互動式靈擺測量工具，專為能量工作者、靈擺使用者和整體健康治療師設計。使用者可以自由輸入待測項目清單（身體部位、情緒、療法等），並配合靈擺技術進行能量評估與測量。三層半圓形設計提供全面的測量功能，包含評估等級和數值刻度。
 
 ### 功能特色
-- 自由輸入多項文字清單，每行一項。
-- 三層同心半圓結構：
-  - 最外層：顯示使用者輸入的項目，根據項目數量自動等分。
-  - 中間層：固定顯示五個評估等級（Critical、Poor、Fair、Good、Excellent）。
-  - 最內層：顯示數值範圍（-10到+10）。
-- 每個扇形區塊顯示對應的文字，文字排版符合扇形形狀。
-- 根據文字長度自動調整字體大小，確保可讀性。
-- 按鈕即時更新圖形。
-- 純前端實現，不依賴任何外部函式庫。
-- Apple風格的簡潔美觀設計，支援響應式佈局。
+- 自訂測試項目：可添加任何您希望用靈擺測試的項目，每行一項。
+- 專業三層靈擺結構：
+  - 最外層：顯示您自訂的測試項目，根據數量動態調整。
+  - 中間層：五級評估等級（Critical危急、Poor不佳、Fair一般、Good良好、Excellent優秀）。
+  - 最內層：精確數值測量範圍（-10到+10）。
+- 優化的文字顯示，自動調整大小以確保完美可讀性。
+- 本機儲存功能，自動保存您的自訂項目，下次使用時自動載入。
+- 簡潔無干擾的界面，專為專注靈擺實踐而設計。
+- 純前端實現，初次載入後可離線使用。
+- 現代響應式設計，同時支援桌面和移動設備。
 
 ### 使用說明
-1. 在文字輸入框中輸入多行文字，每行為一個項目。
-2. 點擊「更新圖形」按鈕，畫面中央會顯示對應的三層半圓扇形圖。
-3. 可隨時修改文字並重新更新圖形。
-4. 預設已包含一組示例項目（身體部位、情緒狀態等）。
+1. 在輸入框中輸入您希望測試的項目（器官、情緒、療法等）。
+2. 點擊「重繪/Redraw」按鈕更新圖表。
+3. 將您的靈擺懸吊在圖表的中心點上方。
+4. 提出您的問題，觀察靈擺向特定扇區的移動。
+5. 閱讀相應的評估等級和數值，以及您的測試項目。
+6. 您的項目將自動保存，供下次使用時載入。
 
 ### 技術細節
-- 使用 SVG 繪製三層同心半圓扇形圖。
-- JavaScript 動態計算每個扇形的角度並繪製。
-- 文字沿著徑向排列，確保可讀性。
-- CSS 實現現代化的 UI 設計，包括漸變按鈕和陰影效果。
-- 響應式設計，適應不同螢幕尺寸。
+- 基於SVG的渲染確保在任何螢幕尺寸下都有清晰的圖形。
+- 使用LocalStorage API保存您的自訂測試項目。
+- JavaScript動態計算並渲染圖表組件。
+- 徑向文字排列確保從各個角度都能最佳閱讀。
+- 現代CSS設計，具有漸變效果和響應式佈局。
 
 ### 未來改進
-- 支援扇形顏色多樣化或自定義。
-- 增加滑鼠互動提示文字。
-- 提供扇形點擊事件和選中效果。
-- 增加指針動畫效果。
-- 提供保存/匯出圖形功能。
+- 多種圖表預設模板，適用於不同靈擺用途。
+- 列印/匯出功能，用於保存和分享結果。
+- 動畫效果，可視化靈擺移動模式。
+- 引導式靈擺會話，內建計時器。
+- 額外的測量刻度和評估方法。
 
 ---
 

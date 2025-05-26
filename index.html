@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>三層扇形圖互動網頁</title>
+  <title>Interactive 3-Layer Dowsing Chart</title>
   <style>
     /* Apple風格簡潔美觀設計 */
     body {
@@ -51,6 +51,13 @@
       border: 1.5px solid #007aff;
       outline: none;
     }
+    .button-container {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
     button {
       background: linear-gradient(90deg, #007aff 60%, #34c759 100%);
       color: #fff;
@@ -61,12 +68,18 @@
       font-weight: 600;
       cursor: pointer;
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-      margin-bottom: 18px;
       transition: background 0.2s, box-shadow 0.2s;
+      min-width: 120px;
     }
     button:hover {
       background: linear-gradient(90deg, #0051a8 60%, #28a745 100%);
       box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+    }
+    #fullscreenBtn {
+      background: linear-gradient(90deg, #ff3b30 60%, #ff9500 100%);
+    }
+    #fullscreenBtn:hover {
+      background: linear-gradient(90deg, #d70015 60%, #e6820d 100%);
     }
     .svg-wrapper {
       width: 65vw;
@@ -80,6 +93,74 @@
       justify-content: center;
       margin-top: 8px;
     }
+    
+    /* 全螢幕模式樣式 */
+    .fullscreen-mode {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #f8f9fa;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    /* 隱藏瀏覽器全螢幕提示框 */
+    .fullscreen-mode::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #f8f9fa;
+      z-index: -1;
+    }
+    
+    /* 確保全螢幕模式下的內容在最上層 */
+    .fullscreen-mode * {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .fullscreen-mode .container {
+      width: 95vw;
+      height: 95vh;
+      max-width: none;
+      max-height: none;
+      min-width: auto;
+      margin-top: 0;
+      padding: 20px;
+    }
+    
+    .fullscreen-mode .svg-wrapper {
+      width: 90vw;
+      height: 80vh;
+      min-width: auto;
+      min-height: auto;
+      max-width: none;
+      max-height: none;
+    }
+    
+    /* 在全螢幕模式下隱藏輸入框和重繪按鈕 */
+    .fullscreen-mode textarea {
+      display: none;
+    }
+    
+    .fullscreen-mode #drawBtn {
+      display: none;
+    }
+    
+    .fullscreen-mode h1 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.8em;
+    }
+    
     @media (max-width: 800px) {
       .container {
         width: 95vw;
@@ -91,6 +172,13 @@
         min-width: 320px;
         min-height: 180px;
       }
+      .button-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      button {
+        width: 200px;
+      }
     }
   </style>
 </head>
@@ -98,7 +186,10 @@
   <h1>Dowsing Chart</h1>
   <div class="container">
     <textarea id="inputList" placeholder="請輸入多行文字，每行一項...\n例如：\nHead\nBrain\nEye\nEar\nNose\nMouth\nShock\nStress\nAnger\nJoy\nPain\nNumb\nSadness\nLive\nDead\nSleep\nAwake\nGood\nBad\nFast\nSlow\nUp\nDown"></textarea>
-    <button id="drawBtn">重繪/Redraw</button>
+    <div class="button-container">
+      <button id="drawBtn">重繪/Redraw</button>
+      <button id="fullscreenBtn">全螢幕/Fullscreen</button>
+    </div>
     <div class="svg-wrapper">
       <!-- SVG 圖形將動態插入這裡 -->
       <svg id="fanChart" width="100%" height="100%" viewBox="0 0 480 280" preserveAspectRatio="xMidYMid meet"></svg>
@@ -108,33 +199,81 @@
     // 取得 DOM 元素
     const inputList = document.getElementById('inputList');
     const drawBtn = document.getElementById('drawBtn');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
     const fanChart = document.getElementById('fanChart');
+    const body = document.body;
+
+    // 全螢幕狀態追蹤
+    let isFullscreen = false;
 
     // 固定的內層和中層內容
     const innerLayerNumbers = Array.from({length: 21}, (_, i) => (i - 10).toString()); // -10到+10
     const middleLayerLabels = ['Critical', 'Poor', 'Fair', 'Good', 'Excellent'];
 
-    // 本機儲存功能 - 儲存文字到localStorage
-    function saveToLocalStorage(items) {
-      try {
-        localStorage.setItem('dowsingChartItems', JSON.stringify(items));
-      } catch (e) {
-        console.error('儲存到本機失敗:', e);
+    // 本機儲存功能 - 儲存文字到本機變數
+    let savedItems = null;
+    function saveToMemory(items) {
+      savedItems = items.slice(); // 複製陣列
+    }
+
+    // 本機儲存功能 - 從本機變數讀取文字
+    function loadFromMemory() {
+      return savedItems;
+    }
+
+    // 全螢幕切換功能
+    function toggleFullscreen() {
+      if (!isFullscreen) {
+        // 進入全螢幕模式
+        body.classList.add('fullscreen-mode');
+        fullscreenBtn.textContent = '退出全螢幕/Exit Fullscreen';
+        isFullscreen = true;
+        
+        // 隱藏可能的瀏覽器UI元素
+        document.documentElement.style.overflow = 'hidden';
+        body.style.overflow = 'hidden';
+        
+        // 延遲後嘗試使用瀏覽器全螢幕 API
+        setTimeout(() => {
+          if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen({ navigationUI: "hide" }).catch(() => {});
+          } else if (document.documentElement.webkitRequestFullscreen) {
+            document.documentElement.webkitRequestFullscreen().catch(() => {});
+          } else if (document.documentElement.msRequestFullscreen) {
+            document.documentElement.msRequestFullscreen().catch(() => {});
+          }
+        }, 100);
+        
+      } else {
+        // 退出全螢幕模式
+        body.classList.remove('fullscreen-mode');
+        fullscreenBtn.textContent = '全螢幕/Fullscreen';
+        isFullscreen = false;
+        
+        // 恢復滾動
+        document.documentElement.style.overflow = '';
+        body.style.overflow = '';
+        
+        // 退出瀏覽器全螢幕
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen().catch(() => {});
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen().catch(() => {});
+        }
       }
     }
 
-    // 本機儲存功能 - 從localStorage讀取文字
-    function loadFromLocalStorage() {
-      try {
-        const savedItems = localStorage.getItem('dowsingChartItems');
-        if (savedItems) {
-          return JSON.parse(savedItems);
-        }
-      } catch (e) {
-        console.error('從本機讀取失敗:', e);
+    // 監聽瀏覽器全螢幕狀態變化
+    document.addEventListener('fullscreenchange', () => {
+      if (!document.fullscreenElement && isFullscreen) {
+        // 用戶通過 ESC 鍵退出全螢幕
+        body.classList.remove('fullscreen-mode');
+        fullscreenBtn.textContent = '全螢幕/Fullscreen';
+        isFullscreen = false;
       }
-      return null;
-    }
+    });
 
     // 畫三層同心扇形圖主函式
     function drawFanChart(outerItems) {
@@ -329,30 +468,40 @@
     drawBtn.addEventListener('click', () => {
       // 取得多行文字，去除空白行
       const items = inputList.value.split('\n').map(s => s.trim()).filter(s => s);
-      // 儲存到本機
-      saveToLocalStorage(items);
+      // 儲存到記憶體
+      saveToMemory(items);
       // 繪製圖形
       drawFanChart(items);
     });
 
-    // 檢查是否有本機儲存的項目
-    const savedItems = loadFromLocalStorage();
+    // 綁定全螢幕按鈕事件
+    fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+    // 檢查是否有記憶體儲存的項目
+    const memoryItems = loadFromMemory();
     
     // 預設範例
     const defaultItems = [
       'Wood/Liver','Fire/Heart','Earth/Spleen','Metal/Lung','Water/Kidney' ];
     
-    // 如果有本機儲存的項目則使用，否則使用預設項目
-    const initialItems = savedItems || defaultItems;
+    // 如果有記憶體儲存的項目則使用，否則使用預設項目
+    const initialItems = memoryItems || defaultItems;
     
     // 設置文字框內容並繪製圖形
     inputList.value = initialItems.join('\n');
     drawFanChart(initialItems);
 
-    // 監聽文字框變化，自動儲存到本機
+    // 監聽文字框變化，自動儲存到記憶體
     inputList.addEventListener('input', () => {
       const items = inputList.value.split('\n').map(s => s.trim()).filter(s => s);
-      saveToLocalStorage(items);
+      saveToMemory(items);
+    });
+
+    // 支援 ESC 鍵退出全螢幕
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isFullscreen) {
+        toggleFullscreen();
+      }
     });
   </script>
 </body>

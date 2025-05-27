@@ -4,7 +4,6 @@
 
 ## 🔮 [Try it now! 立即體驗！](http://dowsing.88654068.xyz/)
 
-![Dowsing Chart Preview](https://raw.githubusercontent.com/hongdartw/dowsing_chart/main/preview.png)
 
 <a name="english"></a>
 ## English
